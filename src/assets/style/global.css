@@ -1,7 +1,6 @@
-:root{
+:root {
     font-size: 60%;
-
-/* cores variaveis */
+    /* cores variaveis */
     --color-background: #F0F0F7;
     --color-primary-lighter: #9871F5;
     --color-primary-light: #916BEA;
@@ -22,43 +21,41 @@
     --color-box-footer: #FAFAFC;
 }
 
-*{
+* {
     margin: 0;
-    padding:0 ;
+    padding: 0;
     box-sizing: border-box;
-    }
+}
 
-    html, body, #root{
-        /* utilizar 100% da tela */
-        height: 100vh;
-    }
+html, body, #root {
+    /* utilizar 100% da tela */
+    height: 100vh;
+}
 
-    body{
-        background-color: var(--color-background);
-    }
+body {
+    background-color: var(--color-background);
+}
 
-    #root{
-        /* coloca todo o conteudo no centro da tela */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+#root {
+    /* coloca todo o conteudo no centro da tela */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    body,
-    input,
-    button,
-    textarea{
-        /* 500 de font weigth 1.6 tamanho e a fonte */
-        font: 500 1.6rem Poppins;
-    }
+body, input, button, textarea {
+    /* 500 de font weigth 1.6 tamanho e a fonte */
+    font: 500 1.6rem Poppins;
+    color: var(--color-text-base);
+}
 
-    .container{
-        width: 90vw;
-        max-width: 700px;
-    }
+.container {
+    width: 90vw;
+    max-width: 700px;
+}
 
-    @media (min-width: 700px){
-        :root{
-            font-size: 62.5%;
-        }
+@media (min-width: 700px) {
+    :root {
+        font-size: 62.5%;
     }
+}
