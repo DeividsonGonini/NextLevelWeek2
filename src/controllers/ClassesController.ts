@@ -16,7 +16,13 @@ interface ScheduleItem {
 export default class ClassesController {
     //listar as aulas
     async index(request: Request, response: Response) {
+        //criando variavel para utilizarmos a função de filtros
         const filters = request.query;
+
+        //Tipando os atributos
+        const subject = filters.subject as string;
+        const week_day = filters.week_day as string;
+        const time = filters.time as string;
 
         if (!filters.week_day || !filters.subject || !filters.time) {
             return response.status(400).json({
@@ -24,11 +30,31 @@ export default class ClassesController {
             })
         }
 
-        const timeInMinutes = convertHourToMinutes(filters.time as string);
+        const timeInMinutes = convertHourToMinutes(time);
 
-        console.log(timeInMinutes);
+        //Query para o banco de dados
+        const classes = await db('classes')
+            //whereExists = verifica se o o professor da aula no dia selecionado 
+            .whereExists(function () {
+                //seleciona a tabela class_schedule
+                this.select('class_schedule.*')
+                    .from('class_schedule')
+                    //faz a comparação da class (aula)
+                    .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
+                    //recebe o parametro week_day e verifica no banco de dados (verifica se o professor da aula no dia passado pesquisado)
+                    .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)])
+                    //verifica se o professor da aula num horario menor ou igual ao pesquisado
+                    .whereRaw('`class_schedule`.`from` <= ??', timeInMinutes)
+                    //verifica se o horario pesquisado não é maior do que o horario que o professor dá aula
+                    .whereRaw('`class_schedule`.`to` > ??', timeInMinutes)
+            })
+            .where('classes.subject', '=', subject)
+            //apontando o relacionamento entre tabelas 
+            .join('users', 'classes.user_id', '=', 'users.id')
+            //seleciona todos os dados das 2 tabelas (com inner join)
+            .select(['classes.*', 'users.*'])
 
-        return response.send();
+        return response.json(classes);
     }
 
     //criar as aulas

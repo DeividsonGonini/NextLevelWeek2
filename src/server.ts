@@ -1,6 +1,7 @@
 //importação do express no projeto
 import express from 'express';
 import routes from './routes';
+import cors from 'cors';
 
 //chamando a função express
 const app = express();
@@ -9,6 +10,9 @@ const app = express();
 app.use(express.json());
 //importando as rotas
 app.use(routes);
+
+//adicionando o cors
+app.use(cors())
 
 
 

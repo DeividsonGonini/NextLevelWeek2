@@ -22,7 +22,7 @@ export async function up(knex: Knex) {
 
         table.timestamp('create_at')
             //pega o horario atual
-            .defaultTo('now()')
+            .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
             .notNullable()
     });
 }
