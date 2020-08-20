@@ -6,13 +6,15 @@ import cors from 'cors';
 //chamando a função express
 const app = express();
 
+//adicionando o cors
+app.use(cors())
+
 //Adicionando um recurso para que o express entenda JSON
 app.use(express.json());
+
 //importando as rotas
 app.use(routes);
 
-//adicionando o cors
-app.use(cors())
 
 
 
