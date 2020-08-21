@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // importando uma imagem
@@ -10,8 +10,24 @@ import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 
 import './styles.css'
+import api from '../../services/api';
 
 function Landing() {
+    //variavel de estado para controlar o total de conexões
+    const [totalConnections, setTotalConnections] = useState(0);
+
+    // useEffect(()=>{} - função que sera executada sempre que a variavel do array mudar (caso ele fique vazio, executara apenas uma vez),[])
+
+    useEffect(() => {
+        //connections é a ROTA
+        api.get('connections').then(response => {
+            //response traz os dados da API, colocando .data traz o dado
+            const { total } = response.data;
+            console.log(response)
+
+            setTotalConnections(total);
+        })
+    }, [])
 
     return (
         <div id="page-landing">
@@ -39,7 +55,7 @@ function Landing() {
                     </Link>
                 </div>
                 <span className="give-classesal-connections">
-                    Total de 200 conexões ja realizadas    <img src={purpleHeartIcon} alt="Coração roxo" />
+                    Total de {totalConnections} conexões ja realizadas    <img src={purpleHeartIcon} alt="Coração roxo" />
                 </span>
             </div>
         </div>

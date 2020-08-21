@@ -12,6 +12,7 @@ interface PageHeaderProps {
     //definindo propriedade como padrao e atribuindo a tipagem
     title: string;
     //se nao for obrigatorio colocar title?: <atribuir um tipo default>;
+    description?: string;
 }
 //a function tem que virar uma *variavel const
 // React.FC (Function Component) - Componente escrito em formato de Funçao
@@ -30,6 +31,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             <div className="header-content">
                 {/* props.title - variavel que nos criamos */}
                 <strong>{props.title}</strong>
+                {/* If ternário, se tiver props.description mostra ele, se nao (:) nullo */}
+                {props.description ? <p>{props.description}</p> : null}
                 {props.children}
             </div>
         </header >
