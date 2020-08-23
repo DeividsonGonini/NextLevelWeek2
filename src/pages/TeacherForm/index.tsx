@@ -7,6 +7,7 @@ import Textarea from '../../components/Textarea';
 import Select from '../../components/Select';
 
 import warningIcon from '../../assets/images/icons/warning.svg';
+import api from '../../services/api';
 
 
 function TeacherForm() {
@@ -38,10 +39,40 @@ function TeacherForm() {
         ])
     }
 
+    //setScheduleItemValue (value, 'week_day', '2')
+    function setScheduleItemValue(position: number, field: string, value: string) {
+        const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
+            if (index === position) {
+                return { ...scheduleItem, [field]: value };
+            }
+            return scheduleItem;
+        });
+
+        setScheduleItems(updatedScheduleItems);
+    }
+
     //função para criar as aulas
     function handleCreateClass(e: FormEvent) {
         //Previne o comportamento padrao do formulario (Reload na pagina)
         e.preventDefault()
+
+        api.post('classes', {
+            name,
+            avatar,
+            whatsapp,
+            bio,
+            subject,
+            cost: Number(cost),
+            schedule: scheduleItems
+        }).then(() => {
+            alert('Cadastro realizado com sucesso!');
+        }).catch(() => {
+            alert('Erro no cadastro!')
+        })
+
+
+
+
     }
 
     return (
@@ -122,12 +153,13 @@ function TeacherForm() {
                         </button>
                         </legend>
 
-                        {scheduleItems.map(scheduleItem => {
+                        {scheduleItems.map((scheduleItems, index) => {
                             return (
-                                <div key={scheduleItem.week_day} className="schedule-item">
+                                <div key={scheduleItems.week_day} className="schedule-item">
                                     <Select
                                         name="week_day"
                                         label="Dia da Semana"
+                                        onChange={e => setScheduleItemValue(index, 'week_day', e.target.value)}
                                         options={[
                                             { value: '0', label: 'Domingo' },
                                             { value: '1', label: 'Segunda-feira' },
@@ -139,8 +171,20 @@ function TeacherForm() {
 
                                         ]}
                                     />
-                                    <Input name="from" label="Das" type="time" />
-                                    <Input name="to" label="Até" type="time" />
+                                    <Input
+                                        name="from"
+                                        label="Das"
+                                        type="time"
+                                        value={scheduleItems.from}
+                                        onChange={e => setScheduleItemValue(index, 'from', e.target.value)}
+                                    />
+                                    <Input
+                                        name="to"
+                                        label="Até"
+                                        type="time"
+                                        value={scheduleItems.to}
+                                        onChange={e => setScheduleItemValue(index, 'to', e.target.value)}
+                                    />
 
                                 </div>
                             )
