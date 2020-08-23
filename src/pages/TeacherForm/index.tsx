@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
-import PageHeader from '../../components/PageHeader';
+import { useHistory } from 'react-router-dom'
 
+
+import PageHeader from '../../components/PageHeader';
 import './styles.css';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
@@ -11,6 +13,9 @@ import api from '../../services/api';
 
 
 function TeacherForm() {
+    //declarando variavel para use history
+    const history = useHistory();
+
 
     //Variavel utilizando Estado (fica sendo observada, quando alterada o html ira atualizar ela na tela)
     const [name, setName] = useState('');
@@ -66,6 +71,9 @@ function TeacherForm() {
             schedule: scheduleItems
         }).then(() => {
             alert('Cadastro realizado com sucesso!');
+            // redirecionamento apos o usuario cadastrar a aula
+            history.push('/');
+
         }).catch(() => {
             alert('Erro no cadastro!')
         })
