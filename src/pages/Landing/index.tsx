@@ -14,7 +14,13 @@ function Landing() {
 
     //função para navegar para o componente que deseja
     function handleNavigateGiveClassesPage() {
-        navigate('GiveClasses')
+        // Nome que foi colocado no AppStack
+        navigate('GiveClasses');
+    }
+
+
+    function handleNavigateToStudyPages() {
+        navigate('Study');
     }
 
 
@@ -28,7 +34,9 @@ function Landing() {
             </Text>
 
             <View style={styles.buttonsContainer}>
-                <RectButton style={[styles.button, styles.buttonPrimary]}>
+                <RectButton
+                    onPress={handleNavigateToStudyPages}
+                    style={[styles.button, styles.buttonPrimary]}>
                     <Image source={studyIcon} />
                     <Text style={styles.buttonText}> Estudar</Text>
                 </RectButton>
